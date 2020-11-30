@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function addActivity(){
+            const ACTIVITYLIST = document.querySelector(".activityList");
+
+            var text = document.getElementById("activity").value; //get activity from textfield
+            document.getElementById("activity").value = ""; //clear textfield
+            var activityId = "a" + Date.now(); //generates unique id to bind checkbox and label
+
+            //create task div
+            var task = document.createElement("div");
+            task.setAttribute("class", "taskitem");
+            task.setAttribute("id", activityId);
+            
+            //for the checkbox
+            var activityCompleted = document.createElement("input");
+            activityCompleted.setAttribute("type", "checkbox");
+            activityCompleted.setAttribute("id", activityId);
+            activityCompleted.setAttribute("onclick", "completeActivity(this.id);");
+
+            //for the label
+            var listElement = document.createElement("label");
+            listElement.setAttribute("for", activityId);
+            listElement.append(" " + text);
+
+            //for remove button
+            var removebtn = document.createElement("button");
+            // removebtn.append("remove");
+            removebtn.setAttribute("id", activityId);
+            removebtn.setAttribute("class", "removeButton");
+            removebtn.setAttribute("onclick", "removeActivity(this.id);");
+            removebtn.innerHTML = removebtn.innerHTML + "<br>";
+            
+            //add elements to the To-do list
+            task.append(activityCompleted);
+            task.append(listElement);
+            task.append(removebtn);
+            ACTIVITYLIST.append(task);
+
+            // ACTIVITYLIST.append(dropmenu);
+            
+            
+        }
+        
+        function completeActivity(aid){
+            //remove from things to do and add to completed
+            const COMPLETED = document.querySelector(".completedTasks");
+
+            //find label with aid (id) and add to completed list
+            var label = document.querySelector("label[for=" + aid + "]");
+            var labelText = label.innerHTML;
+            
+            var listElement = document.createElement("li");
+            listElement.append(labelText);
+            COMPLETED.append(listElement);
+            
+            //remove the label and its checkbox
+            label.remove();
+            document.getElementById(aid).remove();
+        }
+
+        function removeActivity(aid){
+            document.getElementById(aid).remove();
+        }
+
+    </script>
+
+</head>
+
+
+
+<body>
+    <div class="content-wrap">
+        <header>
+            <h1>To-Do List</h1>
+        </header>
+        <form class="enterTask">
+            <input type="text" id="activity" name="activity" placeholder="Add a task here!"> 
+            <input id="addButton" type="button" onclick="addActivity();">
+        </form>
+    </div>
+    
+    <div class="content-wrap">
+        <div class="to-do">
+            <h2>Things To Do</h2>
+            <div class="activityList">
+                
+            </div>
+        </div>
+
+        <div class="completed">
+            <h2>Completed</h2>
+            <ul class="completedTasks">
+
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="dropdown">
+        <button class="dropbtn">Dropdown</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="removeActivity();">Remove</a>
+            <a href="#" onclick="completeActivity();">Completed</a>
+        </div>
+    </div> -->
+
+</body>
+
+</html>
+
+<!-- //for the dropdown
+            var dropmenu = document.createElement("div");
+            dropmenu.setAttribute("class", "dropdown");
+            dropmenu.setAttribute("id", activityId);
+
+            var dropbutton = document.createElement("button");
+            dropbutton.setAttribute("class", "dropbtn");
+            dropbutton.append("Dropdown");
+            dropmenu.append(dropbutton);
+
+            var dropcontent = document.createElement("div");
+            dropcontent.setAttribute("class", "dropdown-content");
+            dropmenu.append(dropcontent);
+
+            var removelink = document.createElement("a");
+            removelink.setAttribute("href", "#");
+            removelink.setAttribute("onclick", "removeActivity();");
+            removelink.append("Remove");
+            dropcontent.append(removelink);
+
+            var completelink = document.createElement("a");
+            completelink.setAttribute("href", "#");
+            completelink.setAttribute("storedIdOfDropdown", activityId);
+            completelink.setAttribute("onclick", "completeActivity(this.getAttribute(storedIdOfDropdown));");
+            
+            
+            completelink.append("Complete");
+            dropcontent.append(completelink); -->
